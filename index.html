@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEGA расчет стоимости доставки груза</title>
+    <link rel="stylesheet" href="css/styli.css">
+</head>
+<body>
+    <header>
+        <div class="topMenu">
+            <div class="logo">
+                <img src="img/VEGA.png" alt="VEGA">
+            </div>
+            <div class="headerMenu">
+                <ul class="ulButMenu">
+                    <li><a href="#">Главная</a></li>
+                    <li><a href="#">Калькулятор</a></li>
+                </ul>
+            </div>
+            <div class="headerAccess">
+                <p><a href="#">Вход</a></p>
+                <p><a href="#">Регистрация</a></p>
+            </div>
+        </div>
+    </header>
+    <main>
+        <form id="calculateForm" onsubmit="event.preventDefault()">
+            <div class="centerMenu">      
+                <h1>Расчет стоимости доставки груза</h1>
+                <div class="menuCyti">
+                    <div class="from_city">
+                        <label for="derival" class="tableLabel">Откуда</label>
+                        <input class="tableInput" list="derival-list" id="derival" name="derival" 
+                        placeholder="Населенный Пункт" autofocus autocomplete="off">
+                        <datalist id="derival-list"></datalist>
+                    </div>
+                    <div class="in_the_city">
+                        <label for="arrival" class="tableLabel">Куда</label>
+                        <input class="tableInput" list="arrival-list" name="arrival"  id="arrival"
+                         placeholder="Населенный пункт" autocomplete="off">
+                         <datalist id="arrival-list"></datalist>
+                    </div>
+                </div>
+            </div>
+            <div class="card" hidden="">
+                <div class="card-body" style="display:flex" id="carrierList"><article>
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value="" id="carrier_0" checked="" name="delline" onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_0">
+                        Деловые линии
+                    </label>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value="" id="carrier_2" checked="" name="pek" onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_2">
+                        ПЭК
+                    </label>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value="" id="carrier_4" checked="" name="baikal" onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_4">
+                        Байкал Сервис
+                    </label>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value="" id="carrier_6" checked="" name="jeldor" onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_6">
+                        ЖелДорЭкспедиция
+                    </label>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value="" id="carrier_8" checked="" name="luch" onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_8">
+                        Луч
+                    </label>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value="" id="carrier_10" checked="" name="magictrans" onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_10">
+                        Magic Транс
+                    </label>
+                </div></article><article>
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value="" id="carrier_1" checked="" name="kit" onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_1">
+                        Кит
+                    </label>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value="" id="carrier_3" checked="" name="cdek" onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_3">
+                        СДЭК
+                    </label>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value="" id="carrier_5" checked="" name="boxberry" onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_5">
+                        Boxberry
+                    </label>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value="" id="carrier_7" checked="" name="pochta" onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_7">
+                        Почта России
+                    </label>
+                </div>
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value="" id="carrier_9" checked="" name="energy" onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_9">
+                        Энергия
+                    </label>
+                </div></article></div>
+            </div>
+            <div class="cont_inform_menu">
+                <div class="inform_menu" data-count-cargo-box="1">
+                    <div class="card-header">
+                        <p>Место 1</p>
+                    </div>
+                    <div class="size_fields">
+                        <!-- Д х Ш х В -->
+                        <div class="field_length"> 
+                            <label class="tableLabel" for="length_1">Длина, м</label>
+                            <input type="text" name="length" id="length_1" class="tableInput"
+                                 type="text" placeholder="Длина" value="1">
+                        </div>
+                        <div class="field_width">
+                            <label class="tableLabel" for="for="length_1">Ширина, м</label>
+                            <input type="text" name="width" id="width_1" class="tableInput" 
+                                type="text" placeholder="Ширина" value="1">
+                        </div>
+                        <div class="field_height">
+                            <label class="tableLabel" for="height_1">Высота, м</label>
+                            <input type="text" name="height" id="height_1" class="tableInput" 
+                                type="text" placeholder="Высота" value="1">
+                        </div>
+                    </div>
+                    <div class="parameter_fields">
+                        <!-- вес и количество мест -->
+                        <div class="field_weight">
+                            <label class="tableLabel" for="weight_1">Вес, кг</label>
+                            <input type="text" name="weight" id="weight_1" class="tableInput" 
+                            type="text" placeholder="Вес" value="10">
+                        </div>
+                        <div class="field_quantity">
+                            <label class="tableLabel" for="quantity_1">Кол-во мест</label>
+                            <input type="text" name="quantity" id="quantity_1" class="tableInput"
+                             type="text" placeholder="Кол-во мест" value="1">
+                        </div>
+                    </div>
+                </div>
+            <div class="buttonsMenu">
+                <button type="submit" id="button"><P>Расчитать</P></button>
+                <button type="button" id="addCargoBox" style="float:right"><p>Добавить место</p></button>
+            </div>  
+        </form>            
+    </main>
+    <script>
+        //список перевозчиков
+        const carriers = [
+            { name: 'delline', alias: "Деловые линии" },
+            { name: 'kit', alias: "Кит" },
+            { name: 'pek', alias: "ПЭК" },
+            { name: 'cdek', alias: "СДЭК" },
+            { name: 'baikal', alias: "Байкал Сервис" },
+            { name: 'boxberry', alias: "Boxberry" },
+            { name: 'jeldor', alias: "ЖелДорЭкспедиция" },
+            { name: 'pochta', alias: "Почта России" },
+            { name: 'luch', alias: "Луч" },
+            { name: 'energy', alias: "Энергия" },
+            { name: 'magictrans', alias: "Magic Транс" },
+        ];
+
+        //добавить погрузочное место
+        addCargoBox.addEventListener('click', _ => {
+            const boxes = calculateForm.querySelectorAll('.inform_menu');
+            let count = +boxes[boxes.length - 1].dataset.countCargoBox;
+            const box = makeCargoBox(++count);
+            boxes[boxes.length - 1].insertAdjacentHTML('afterend', box);
+        });
+        //создать html погрузочного места
+        function makeCargoBox(count) {
+            return `
+            <div class="inform_menu" data-count-cargo-box="${count}">
+                <div class="card-header">
+                    <p>Место ${count}</p>
+                    <button type="button" class="btn-close" aria-label="Close" onclick="this.parentNode.parentNode.remove()"><img src="img/cross.png" alt="VEGA"></button>
+                </div>
+                <div class="size_fields">
+                    <!-- Д х Ш х В -->
+                    <div class="field_length"> 
+                        <label class="tableLabel" for="length_${count}">Длина, м</label>
+                        <input type="text" name="length" id="length_${count}" class="tableInput"
+                             type="text" placeholder="Длина" value="1">
+                    </div>
+                    <div class="field_width">
+                        <label class="tableLabel" for="width_${count}">Ширина, м</label>
+                        <input type="text" name="width" id="width_${count}" class="tableInput" 
+                            type="text" placeholder="Ширина" value="1">
+                    </div>
+                    <div class="field_height">
+                        <label class="tableLabel" for="height_${count}">Высота, м</label>
+                        <input type="text" name="height" id="height_${count}" class="tableInput" 
+                            type="text" placeholder="Высота" value="1">
+                    </div>
+                </div>
+                <div class="parameter_fields">
+                    <!-- вес и количество мест -->
+                    <div class="field_weight">
+                        <label class="tableLabel" for="weight_${count}">Вес, кг</label>
+                        <input type="text" name="weight" id="weight_${count}" class="tableInput" 
+                        type="text" placeholder="Вес" value="10">
+                    </div>
+                    <div class="field_quantity">
+                        <label class="tableLabel" for="quantity_${count}">Кол-во мест</label>
+                        <input type="text" name="quantity" id="quantity_${count}" class="tableInput"
+                         type="text" placeholder="Кол-во мест" value="1">
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+
+        addSearchHandler(); //запустить подбор населенных пунктов
+        //показать/скрыть подробный расчёт
+        function toggleCarrierHiddenBlock(event) {
+            event.target.nextElementSibling.hidden = !event.target.nextElementSibling.hidden;
+        }
+        //показать/скрыть подробный расчёт
+        function toggleHiddenBlock(event) {
+            event.target.nextElementSibling.hidden = !event.target.nextElementSibling.hidden;
+            event.target.innerHTML = event.target.nextElementSibling.hidden ? 'показать подробный расчет' : 'скрыть подробный расчет';
+        }
+        //обработчик нажатия клавиши при подборе населенного пункта
+        function searchCity(event) {
+            setValidAll();
+            removeSearchHandler();
+
+            const fd = new FormData();
+            fd.set('city', event.target.value);
+            const options = {
+                method: 'POST',
+                body: fd
+            }
+
+            fetch('/transport/search/city', options)
+                .then(async response => {
+                    if (response.ok) { // если HTTP-статус в диапазоне 200-299
+                        const res = await response.json();
+                        // console.log(res);
+                        createOptionList(res, event.target.nextElementSibling);
+                    }
+                    else {
+                        throw new Error('error search status:' + response.status);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+                .finally(_ => {
+                    addSearchHandler();
+                });
+        }
+        //генерация выпадающего списка населенных пунктов
+        function createOptionList(cities, list) {
+            list.innerHTML = "";
+            for (const city of cities) {
+                list.insertAdjacentHTML('afterbegin', `<option value="${city.fullName}"></option>`);
+            }
+        }
+        //установить/снять слушатель события 'input' подбора населенных пунктов
+        function addSearchHandler() {
+            derival.addEventListener('input', searchCity);
+            arrival.addEventListener('input', searchCity);
+        }
+        function removeSearchHandler() {
+            derival.removeEventListener('input', searchCity);
+            arrival.removeEventListener('input', searchCity);
+        }
+        //показать/скрыть ошибку ввода данных
+        function showMistake(error) {
+            const elem = document.getElementById(error.path);
+            if (elem) {
+                setInvalid(document.getElementById(error.path), error.message);
+            }
+        }
+        function setInvalid(elem, message) {
+            elem.classList.add('is-invalid');
+
+            if (!elem.nextElementSibling || elem.nextElementSibling.tagName !== 'DIV') {
+                elem.insertAdjacentHTML('afterend', `<div class="invalid-feedback">${message}</div>`);
+            }
+            else {
+                elem.nextElementSibling.innerHTML = message;
+            }
+        }
+        function setValidAll() {
+            for (const elem of document.querySelectorAll('#calculateForm input')) {
+                elem.classList.remove('is-invalid');
+                if (elem.nextElementSibling && elem.nextElementSibling.tagName === 'DIV') {
+                    elem.nextElementSibling.remove();
+                }
+            }
+        }
+
+        //проверяет установку локального хранилища, в случае отсутствия инициирует его
+        (_ => {
+            const leftArticle = document.createElement('article');
+            const rightArticle = document.createElement('article');
+
+            for (let i = 0; i < carriers.length; i++) {
+                if (!localStorage[carriers[i].name]) localStorage[carriers[i].name] = 'on';
+
+                if (i % 2) rightArticle.insertAdjacentHTML('beforeend', makeCheckboxCarrier(carriers[i], i));
+                else leftArticle.insertAdjacentHTML('beforeend', makeCheckboxCarrier(carriers[i], i));
+            }
+
+            carrierList.append(leftArticle);
+            carrierList.append(rightArticle);
+        })();
+        //возвращает HTML чекбокса выбора перевозчика
+        function makeCheckboxCarrier(carrier, index) {
+            return `
+                <div class="form-check mt-2">
+                    <input class="show-optional form-check-input" type="checkbox" value=""
+                        id="carrier_${index}" ${localStorage[carrier.name] === 'on' ? 'checked' : ''}
+                        name="${carrier.name}"
+                        onchange="setCarrier(event)">
+                    <label class="show-optional form-check-label" for="carrier_${index}">
+                        ${carrier.alias}
+                    </label>
+                </div>`;
+        }
+        //сохраняет состояние чекбокса в localStorage
+        function setCarrier(event) {
+            localStorage[event.target.name] = localStorage[event.target.name] === 'on' ? 'off' : 'on';
+        }
+
+        //собирает массив из промисов запроса на расчёт
+        function getCalculateList() {
+            const fd = new FormData(event.target);
+            const arr = [];
+            for (const carrier of carriers) {
+                if (localStorage[carrier.name] === 'off') continue;
+                arr.push(calculate(fd, carrier.name));
+            }
+            return arr;
+        }
+        //клик по кнопке расчёта
+        calculateForm.addEventListener('submit', event => {
+            setValidAll();
+
+            button.disabled = true;
+            calculations.innerHTML = '<img src="/wait.gif" id="wait" style="width: 50px"/>';
+
+            Promise.all(getCalculateList())
+                .then(value => console.log("well done"))
+                .catch(error => console.log(error))
+                .finally(_ => {
+                    button.disabled = false;
+                    wait.remove();
+                });
+        });
+        //возвращает промис запроса на расчёт доставки
+        function calculate(fd, carrier) {
+            fd.set('carrier', carrier);
+            const options = {
+                method: 'POST',
+                body: fd
+            };
+            return fetch('/transport/calculation', options)
+                .then(async response => {
+                    if (response.ok) { // если HTTP-статус в диапазоне 200-299
+                        const res = await response.json();
+                        console.log(res);
+                        calculations.insertAdjacentHTML('afterbegin', makeRow(res, carrier));
+                    }
+                    else if (response.status === 400) {
+                        setValidAll();
+                        showMistake(await response.json());
+                    }
+                    else {
+                        console.log(await response.json());
+                        // throw new Error('HTTP error ' + response.status);
+                        console.log(carrier, ": HTTP error ", response.status);
+                    }
+                });
+        }
+        //генерация блоков с данными о расчётах
+        function makeRow(data) {
+            return `
+                <div class="card calculate">
+                    <div class="card-body">
+                        <h4 class="card-title">${data.main.carrier}</h4>
+                        <section class="mt-4">
+                            <article>
+                                <p>Стоимость перевозки</p>
+                            </article>
+                            <article>
+                                <p>Срок</p>
+                            </article>
+                        </section>
+                        <section>${makeMainSection(data)}</section>
+                        <p class="show-optional text-primary" onclick="toggleHiddenBlock(event)">показать подробный расчет</p>
+                        <div class="optional" hidden="true"><hr>${makeHiddenSection(data)}</div>
+                    </div>
+                </div>
+            `;
+        }
+        //блоки с расчётами главный / скрытый
+        function makeMainSection(data) {
+            return `
+                <article>
+                    <p>${data.main.price} р.</p>
+                </article>
+                <article>
+                    <p>${data.main.days ? data.main.days + ' дней' : 'уточняйте у перевозчика'}</p>
+                </article>
+            `;
+        }
+        function makeHiddenSection(data) {
+            let str = '';
+            for (const d of data.detail) {
+                str += `<p><span class="text-muted">${d.name}:</span> ${d.value}</p>`
+            }
+            return str;
+        }
+    </script>
+</div>
+    
+<!-- <div id="news"></div>
+    <script>
+        (async _ => {
+            await fetch('/transport/news')
+            .then(async response => {
+                    const res = await response.json();
+                    console.log(response.status);
+                    console.log(res);
+                    makeNews(res);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        })();
+
+        function makeNews(data) {
+            for(const n of data) {
+                news.insertAdjacentHTML('beforeend', makePost(n));
+            }
+        }
+
+        function makePost(post) {
+            return `
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">${post.title}</h4>
+                    <p class="card-text">${post.description}</p>
+                    <a href="${post.link}" class="card-link">Подробнее...</a>
+                </div>
+            </div>
+            `;
+        }
+    </script> --> 
+</body>
+</html>
